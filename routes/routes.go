@@ -13,7 +13,7 @@ func Routes(router *gin.Engine) {
 	coinHandler := controllers.NewCoinHandler()
 	router.GET("/", welcome)
 	router.GET("/portfolio", userHandler.GetAllUser)
-	router.GET("/portfolio/coins", userHandler.GetUserCoins)
+	router.GET("/portfolio/:user/coins", userHandler.GetUserCoins)
 
 	router.POST("/portfolio/:user/entries", coinHandler.UserCoin)
 	router.NoRoute(notFound)
