@@ -8,14 +8,14 @@ import (
 )
 
 func Routes(router *gin.Engine) {
-	controllers.getAllUserCoins
+	userHandler := controllers.NewUserHandler()
+
+	coinHandler := controllers.NewCoinHandler()
 	router.GET("/", welcome)
-	router.GET("/portfolio", controllers.GetAllUsers)
-	router.POST("/portfolio", controllers.CreateUser)
-	// router.GET("/todo/:todoId", controllers.GetSingleTodo)
-	// router.PUT("/todo/:todoId", controllers.EditTodo)
-	// router.DELETE("/todo/:todoId", controllers.DeleteTodo)
-	router.POST("/portfolio/:id/entries",controllers.CreateCoin)
+	router.GET("/portfolio", userHandler.GetAllUser)
+	router.GET("/portfolio/coins", userHandler.GetUserCoins)
+
+	router.POST("/portfolio/:user/entries", coinHandler.UserCoin)
 	router.NoRoute(notFound)
 }
 
@@ -24,7 +24,7 @@ func welcome(c *gin.Context) {
 		"status":  200,
 		"message": "Welcome To API",
 	})
-	
+
 }
 
 func notFound(c *gin.Context) {
@@ -32,5 +32,5 @@ func notFound(c *gin.Context) {
 		"status":  404,
 		"message": "Route Not Found",
 	})
-	
+
 }
